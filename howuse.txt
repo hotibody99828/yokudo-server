@@ -1,0 +1,31 @@
+# 1. ចូលទៅ VPS (SSH)
+ssh root@YOUR_VPS_IP
+
+# 2. ដំឡើង Git (បើមិនទាន់មាន)
+apt-get update
+apt-get upgrade
+apt-get install -y git
+
+# 3. ដំឡើង Node.js (បើមិនទាន់មាន)
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+apt-get install -y nodejs
+
+# 4. Clone ពី GitHub
+cd /root
+git clone https://github.com/YOUR_USERNAME/yokudo-server.git
+cd yokudo-server
+
+# 5. ដំឡើង dependencies
+npm install
+
+# 6. បើក Port 3000
+ufw allow 3000
+
+# 7. ដំណើរការ Server ជាមួយ PM2 (24/7)
+npm install -g pm2
+pm2 start server.js --name yokudo-server
+pm2 save
+pm2 startup
+
+# 8. ពិនិត្យ Server ដំណើរការ
+curl http://localhost:3000/api/health
